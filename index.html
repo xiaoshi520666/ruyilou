@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RE OS · 千禧桌面</title>
+<link rel="stylesheet" href="assets/css/core.css">
+<link rel="stylesheet" href="assets/css/apps.css">
+</head>
+<body>
+
+<!-- ===== 开机动画 ===== -->
+<div id="boot">
+  <div class="boot-inner">
+    <div class="boot-logo">
+      <span class="bl bl1"></span><span class="bl bl2"></span>
+      <span class="bl bl3"></span><span class="bl bl4"></span>
+    </div>
+    <div class="boot-text">正在启动 RE OS<span class="dots"></span></div>
+    <div class="boot-bar"><i></i></div>
+    <div class="boot-skip">点击任意位置跳过</div>
+  </div>
+</div>
+
+<!-- ===== 屏保 ===== -->
+<div id="saver">
+  <canvas id="saver-canvas"></canvas>
+  <div class="saver-hint">RE OS · 屏幕保护程序 — 移动鼠标或按键返回</div>
+</div>
+
+<!-- ===== 开场卷宗 ===== -->
+<div id="intro">
+  <div class="intro-sheet">
+    <div class="in-head">
+      <span>成都市公安局 · 档案室</span>
+      <span class="in-no">卷宗编号 05-1017</span>
+    </div>
+    <div class="in-rule"></div>
+
+    <h1 class="in-case">巧 雀 如 意 楼</h1>
+    <div class="in-sub">未 查 明 旧 案 · 卷 宗 摘 录</div>
+
+    <div class="in-body">
+      <p>你叫刘晨秋，是 2005 年新入职于成都公安局的警员。你热爱这份工作，常常在空闲时间孤身前往封存着疑难旧案的档案室，翻看那些未被解决的案件。</p>
+      <p>就在 2005 年 10 月的一个傍晚，你偶然翻阅到一桩未被查明的案子。案发于五年前，真凶至今未查明，警局给此案的代号为「巧雀如意楼」。</p>
+      <p>你定睛一看，案发地点竟就在自己家附近，瞬间来了兴趣。</p>
+      <p>请利用警局公用电脑里的各种资料，追寻蛛丝马迹，完成此案的探查。</p>
+    </div>
+
+    <div class="in-note">
+      <div class="in-note-h">游 玩 提 示</div>
+      <p>本游戏为雀巢工作室二创，不影响圈外人游玩。除主角和 NPC（巧雀堂店主）外，所有人物原型均为雀巢工作室出镜员工形象二创；各种背景以及人物设定均处在独立世界观，与工作室本人无任何联系。除部分 NPC 照片外，本游戏文案、图片均未使用 AI。有任何侵权行为，请尽快联系创作团队删除游戏。</p>
+    </div>
+
+    <div class="in-credit">
+      <span>游戏制作：消失</span>
+      <span>文案编写：地瓜、消失</span>
+      <span>图片制作：地瓜</span>
+      <span>游戏相关攻略请移步：xhs@烫手的大山芋　@好想消失</span>
+    </div>
+
+    <div class="in-sign">那么，祝你好运，新人警官。</div>
+    <button class="in-go" id="intro-go">打 开 档 案</button>
+
+    <div class="in-seal">巧雀<br>如意楼</div>
+  </div>
+</div>
+
+<!-- ===== 屏幕主体 ===== -->
+<div id="screen">
+
+  <div id="desktop">
+    <div id="wallpaper">
+      <div class="wp-sky"></div>
+      <div class="wp-aurora"></div>
+      <div class="wp-grid"></div>
+      <div class="wp-glow"></div>
+      <div class="wp-stars"></div>
+      <div class="bubbles"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div id="icons"></div>
+
+    <!-- 桌面便签：可拖动，内容由玩家自己写 -->
+    <div id="sticky" class="sticky">
+      <div class="st-head" id="st-head">
+        <span class="st-pin"></span>
+        <span class="st-title">便签</span>
+        <span class="st-state" id="st-state">自动保存</span>
+      </div>
+      <textarea id="st-text" class="st-text" spellcheck="false"></textarea>
+      <div class="st-foot">按住标题栏可拖动 · 内容自动保存</div>
+    </div>
+
+    <div id="windows"></div>
+  </div>
+
+  <!-- 任务栏 -->
+  <div id="taskbar">
+    <button id="start-orb" title="开始">
+      <span class="orb"></span><span class="orb-text">开始</span>
+    </button>
+    <div id="task-tasks"></div>
+    <div id="tray">
+      <span class="tray-ico" title="网络">📡</span>
+      <span class="tray-ico" title="音量">🔊</span>
+      <span class="tray-ico" id="btn-crt" title="千禧滤镜（CRT 扫描线）">📺</span>
+      <span class="tray-ico" id="btn-saver" title="启动屏幕保护">✨</span>
+      <span id="clock" title="时间">--:--</span>
+      <button id="show-desktop" title="显示桌面"></button>
+    </div>
+  </div>
+
+  <!-- 开始菜单 -->
+  <div id="startmenu">
+    <div class="sm-left">
+      <div class="sm-programs" id="sm-programs"></div>
+      <div class="sm-search">
+        <input id="sm-search-input" type="text" placeholder="搜索程序和文件">
+        <span>🔍</span>
+      </div>
+    </div>
+    <div class="sm-right" id="sm-right"></div>
+    <div class="sm-footer">
+      <button id="sm-saver">屏幕保护</button>
+      <button id="sm-shutdown">关机 ▸</button>
+    </div>
+  </div>
+
+  <!-- 右键菜单 -->
+  <div id="ctxmenu"></div>
+</div>
+
+<script src="assets/js/data.js?v=20261029a"></script>
+<script src="assets/js/wm.js?v=20261029a"></script>
+<script src="assets/js/apps.js?v=20261029a"></script>
+<script src="assets/js/main.js?v=20261029a"></script>
+</body>
+</html>
